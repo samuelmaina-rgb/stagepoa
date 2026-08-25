@@ -22,18 +22,18 @@ function Navbar({ onMenuClick }) {
           
 
           <a
-            href="/stages"
-            className="text-gray-600 hover:text-green-600 transition"
-          >
-            Find a Stage
-          </a>
+  href="/#find-a-stage"
+  className="text-gray-600 hover:text-green-600 transition"
+>
+  Find a Stage
+</a>
           
-          <a
-            href="/"
-            className="text-green-700 font-medium hover:text-green-800 transition"
-          >
-            How It Works
-          </a>
+    <a
+  href="/#how-it-works"
+  className="text-green-700 font-medium hover:text-green-800 transition"
+>
+  How It Works
+</a>
 
           {/* <a
             href="/about"

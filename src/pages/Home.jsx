@@ -28,7 +28,7 @@ function Home() {
         </div>
       </section>
       
-<section className="max-w-5xl mx-auto px-6 pb-16">
+<section id="how-it-works" className="max-w-7xl mx-auto px-6 pb-16">
   <div className="border-2 border-black rounded-3xl p-6">
 
     
@@ -85,6 +85,80 @@ function Home() {
       </div>
 
     </div>
+  </div>
+</section>
+
+<section id="find-a-stage" className="max-w-7xl mx-auto px-6 pb-16">
+  <div className="border-2 border-black rounded-3xl p-6">
+
+    
+    <h2 className="text-xl font-bold mb-4">
+      Where are you going?
+    </h2>
+
+    
+    <div className="flex flex-col md:flex-row gap-3">
+
+      
+      <div className="flex-1">
+        <label className="block text-sm font-bold mb-2">
+          From
+        </label>
+
+        <input
+          type="text"
+          placeholder="Enter your current location"
+          className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 outline-none focus:border-[#10B981]"
+        />
+      </div>
+
+      
+      <div className="flex-1">
+        <label className="block text-sm font-bold mb-2">
+          To
+        </label>
+
+        <input
+          type="text"
+          placeholder="Enter your destination"
+          className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 outline-none focus:border-[#10B981]"
+        />
+      </div>
+
+      
+      <div className="flex items-end">
+        <button
+          className="bg-[#10B981] hover:bg-[#10B981] text-white px-5 py-3 rounded-xl font-extrabold border-2 border-black border-r-4 border-b-4 transition"
+        >
+          Search
+        </button>
+      </div>
+
+    </div>
+
+    
+    <div className="mt-6">
+      <p className="text-sm font-bold mb-3">
+        Popular destinations
+      </p>
+
+      <div className="flex flex-wrap gap-3">
+
+        <button className="bg-white border-2 border-black rounded-full px-4 py-2 text-sm font-bold hover:bg-[#10B981] transition">
+          Dagoretti
+        </button>
+
+        <button className="bg-white border-2 border-black rounded-full px-4 py-2 text-sm font-bold hover:bg-[#10B981] transition">
+          Kitengela
+        </button>
+
+        <button className="bg-white border-2 border-black rounded-full px-4 py-2 text-sm font-bold hover:bg-[#10B981] transition">
+          Kilimani
+        </button>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
