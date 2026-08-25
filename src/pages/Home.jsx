@@ -27,6 +27,68 @@ function Home() {
 
         </div>
       </section>
+      
+<section className="max-w-5xl mx-auto px-6 pb-16">
+  <div className="border-2 border-black rounded-3xl p-6">
+
+    
+    <h2 className="text-3xl font-bold text-center mb-6">
+      HOW STAGEPOA WORKS
+    </h2>
+
+    
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+      
+      <div className="bg-[#676E7E] rounded-2xl p-5 border-2 border-black border-r-4 border-b-4">
+        <div className="w-9 h-9 rounded-full bg-[#10B981] text-black flex items-center justify-center font-extrabold text-sm border-2 border-black">
+          01
+        </div>
+
+        <h3 className="mt-4 text-lg font-extrabold text-white">
+          SEARCH DESTINATION
+        </h3>
+
+        <p className="mt-2 text-sm text-white/70">
+          Type where you want to go. Our smart system cross-references all known Nairobi saccos and routes.
+        </p>
+      </div>
+
+      
+      <div className="bg-[#676E7E] rounded-2xl p-5 border-2 border-black border-r-4 border-b-4">
+        <div className="w-9 h-9 rounded-full bg-[#10B981] text-black flex items-center justify-center font-extrabold text-sm border-2 border-black">
+          02
+        </div>
+
+        <h3 className="mt-4 text-lg font-extrabold text-white">
+          GET EXACT STAGE
+        </h3>
+
+        <p className="mt-2 text-sm text-white/70">
+          Receive exact stage names, map coordinates and visual landmarks
+        </p>
+      </div>
+
+      
+      <div className="bg-[#676E7E] rounded-2xl p-5 border-2 border-black border-r-4 border-b-4">
+        <div className="w-9 h-9 rounded-full bg-[#10B981] text-black flex items-center justify-center font-extrabold text-sm border-2 border-black">
+          03
+        </div>
+
+        <h3 className="mt-4 text-lg font-extrabold text-white">
+          BOARD & RIDE
+        </h3>
+
+        <p className="mt-2 text-sm text-white/70">
+          See standard fares, current queue levels, sacco ratings and catch the best matatu without hassle.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+      
     </main>
   )
 }
