@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Heart } from "lucide-react";
 
 import stages from "../data/stages";
 import searchStages from "../utilities/searchStages";
 import { findStageLocation } from "../utilities/findStageLocation";
 import GoogleMap from "../components/GoogleMap";
+import { useFavorites } from "../context/FavoritesContext";
 
 function Results() {
   const [searchParams] = useSearchParams();
+
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const destination = searchParams.get("destination") || "";
 
@@ -430,9 +434,36 @@ function Results() {
 
                   <div className="flex items-start justify-between gap-3">
 
-                    <h2 className="text-2xl font-extrabold text-black">
-                      {stage.stageName}
-                    </h2>
+                    <div className="flex items-center gap-2 min-w-0">
+
+                      <h2 className="text-2xl font-extrabold text-black">
+                        {stage.stageName}
+                      </h2>
+
+                      {/* FAVORITE BUTTON */}
+
+                      <button
+                        onClick={() => toggleFavorite(stage)}
+                        aria-label={
+                          isFavorite(stage.id)
+                            ? `Remove ${stage.stageName} from saved stages`
+                            : `Save ${stage.stageName}`
+                        }
+                        className="shrink-0 p-1 rounded-full hover:bg-white/50 transition"
+                      >
+
+                        <Heart
+                          size={24}
+                          className={
+                            isFavorite(stage.id)
+                              ? "fill-[#10B981] text-[#10B981]"
+                              : "text-black"
+                          }
+                        />
+
+                      </button>
+
+                    </div>
 
                     <span
                       className={`shrink-0 border-2 border-black rounded-full px-3 py-1 text-xs font-extrabold ${getStatusClasses(

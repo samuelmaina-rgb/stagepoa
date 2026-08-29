@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MapPin,
   Map,
@@ -10,11 +11,26 @@ import {
   ChevronDown,
 } from "lucide-react";
 
+import { useFavorites } from "./context/FavoritesContext";
+
 function Sidebar({ isOpen, onClose }) {
   const [openSection, setOpenSection] = useState("navigation");
 
+  const { favorites } = useFavorites();
+
+  const navigate = useNavigate();
+
   const toggleSection = (section) => {
     setOpenSection(openSection === section ? null : section);
+  };
+
+  // Navigate to a saved stage
+  const handleFavoriteClick = (stage) => {
+    navigate(
+      `/results?destination=${encodeURIComponent(stage.stageName)}`
+    );
+
+    onClose();
   };
 
   return (
@@ -65,7 +81,10 @@ function Sidebar({ isOpen, onClose }) {
         {/* Accordion Navigation */}
         <nav className="p-4">
 
-          {/* Navigation Accordion */}
+          {/* --------------------------------------------- */}
+          {/* NAVIGATION ACCORDION */}
+          {/* --------------------------------------------- */}
+
           <div className="border-b border-gray-200/70">
 
             <button
@@ -105,26 +124,17 @@ function Sidebar({ isOpen, onClose }) {
                 </a>
 
                 {/* Stage Map */}
-                <a
-                  href="/map"
-                  onClick={onClose}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg
-                  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
-                >
-                  <Map size={20} />
-                  <span>Stage Map</span>
-                </a>
-
-                {/* Saved Stages */}
-                <a
-                  href="/saved"
-                  onClick={onClose}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg
-                  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
-                >
-                  <Heart size={20} />
-                  <span>Saved Stages</span>
-                </a>
+               <a
+  href="https://www.google.com/maps"
+  target="_blank"
+  rel="noopener noreferrer"
+  onClick={onClose}
+  className="flex items-center gap-3 px-4 py-3 rounded-lg
+  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+>
+  <Map size={20} />
+  <span>Map</span>
+</a>
 
                 {/* Recent Searches */}
                 <a
@@ -142,7 +152,92 @@ function Sidebar({ isOpen, onClose }) {
 
           </div>
 
-          {/* More Accordion */}
+
+          {/* --------------------------------------------- */}
+          {/* SAVED STAGES ACCORDION */}
+          {/* --------------------------------------------- */}
+
+          <div className="border-b border-gray-200/70">
+
+            <button
+              onClick={() => toggleSection("saved")}
+              className="w-full flex items-center justify-between px-4 py-3 font-extrabold text-gray-800"
+            >
+
+              <div className="flex items-center gap-3">
+                <Heart size={20} />
+                <span>Saved Stages</span>
+              </div>
+
+              <ChevronDown
+                size={19}
+                className={`transition-transform duration-300 ${
+                  openSection === "saved"
+                    ? "rotate-180"
+                    : ""
+                }`}
+              />
+
+            </button>
+
+
+            {/* Saved Stages List */}
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                openSection === "saved"
+                  ? "max-h-96 opacity-100"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+
+              <div className="pb-3">
+
+                {favorites.length === 0 ? (
+
+                  <p className="px-4 py-3 text-sm text-gray-500">
+                    No saved stages yet.
+                  </p>
+
+                ) : (
+
+                  favorites.map((stage) => (
+
+                    <button
+                      key={stage.id}
+                      onClick={() =>
+                        handleFavoriteClick(stage)
+                      }
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg
+                      text-gray-700 hover:bg-[#10B981]/10
+                      hover:text-[#10B981] transition text-left"
+                    >
+
+                      <Heart
+                        size={18}
+                        className="shrink-0 fill-[#10B981] text-[#10B981]"
+                      />
+
+                      <span className="font-medium truncate">
+                        {stage.stageName}
+                      </span>
+
+                    </button>
+
+                  ))
+
+                )}
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* --------------------------------------------- */}
+          {/* MORE ACCORDION */}
+          {/* --------------------------------------------- */}
+
           <div className="border-b border-gray-200/70">
 
             <button
@@ -159,7 +254,9 @@ function Sidebar({ isOpen, onClose }) {
                     : ""
                 }`}
               />
+
             </button>
+
 
             <div
               className={`overflow-hidden transition-all duration-300 ${
@@ -168,6 +265,7 @@ function Sidebar({ isOpen, onClose }) {
                   : "max-h-0 opacity-0"
               }`}
             >
+
               <div className="pb-3">
 
                 {/* About */}
@@ -181,6 +279,7 @@ function Sidebar({ isOpen, onClose }) {
                   <span>About StagePoa</span>
                 </a>
 
+
                 {/* Settings */}
                 <a
                   href="/settings"
@@ -193,6 +292,7 @@ function Sidebar({ isOpen, onClose }) {
                 </a>
 
               </div>
+
             </div>
 
           </div>
