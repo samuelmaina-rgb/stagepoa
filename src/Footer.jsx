@@ -1,6 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Footer() {
+  const navigate = useNavigate();
+
+  // Navigate to Home and scroll to a specific section
+  const scrollToSection = (sectionId) => {
+    navigate("/");
+
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+  };
+
   return (
     <footer className="bg-[#676E7E] border-t-2 border-black">
       <div className="max-w-6xl mx-auto px-6 py-5">
@@ -18,6 +36,7 @@ function Footer() {
             </p>
           </div>
 
+
           {/* Product */}
           <div>
             <h3 className="text-white text-sm font-extrabold mb-2">
@@ -25,25 +44,36 @@ function Footer() {
             </h3>
 
             <div className="flex flex-col gap-1 text-xs">
-              <Link to="/" className="text-white/70 hover:text-[#10B981]">
+
+              {/* Home */}
+              <Link
+                to="/"
+                className="text-white/70 hover:text-[#10B981] transition"
+              >
                 Home
               </Link>
 
-              <a
-  href="/#find-a-stage"
-  className="text-white/70 hover:text-[#10B981]"
->
-  Find a Stage
-</a>
 
-              <a
-  href="/#how-it-works"
-  className="text-white/70 hover:text-[#10B981]"
->
-  How It Works
-</a>
+              {/* Find a Stage */}
+              <button
+                onClick={() => scrollToSection("find-a-stage")}
+                className="text-left text-white/70 hover:text-[#10B981] transition"
+              >
+                Find a Stage
+              </button>
+
+
+              {/* How It Works */}
+              <button
+                onClick={() => scrollToSection("how-it-works")}
+                className="text-left text-white/70 hover:text-[#10B981] transition"
+              >
+                How It Works
+              </button>
+
             </div>
           </div>
+
 
           {/* Community */}
           <div>
@@ -52,19 +82,31 @@ function Footer() {
             </h3>
 
             <div className="flex flex-col gap-1 text-xs">
-              <Link to="/about" className="text-white/70 hover:text-[#10B981]">
+
+              <Link
+                to="/about"
+                className="text-white/70 hover:text-[#10B981] transition"
+              >
                 About Us
               </Link>
 
-              <Link to="/contact" className="text-white/70 hover:text-[#10B981]">
+              <Link
+                to="/contact"
+                className="text-white/70 hover:text-[#10B981] transition"
+              >
                 Contact
               </Link>
 
-              <Link to="/login" className="text-white/70 hover:text-[#10B981]">
+              <Link
+                to="/login"
+                className="text-white/70 hover:text-[#10B981] transition"
+              >
                 Login
               </Link>
+
             </div>
           </div>
+
 
           {/* Morning Reports */}
           <div>
@@ -77,6 +119,7 @@ function Footer() {
             </p>
 
             <div className="flex mt-2">
+
               <input
                 type="email"
                 placeholder="Your email"
@@ -88,16 +131,20 @@ function Footer() {
               >
                 Join
               </button>
+
             </div>
           </div>
 
         </div>
 
+
         {/* Bottom */}
         <div className="border-t border-white/20 mt-4 pt-3">
+
           <p className="text-white/50 text-[10px]">
             © 2026 StagePoa. All rights reserved.
           </p>
+
         </div>
 
       </div>
@@ -106,3 +153,4 @@ function Footer() {
 }
 
 export default Footer;
+

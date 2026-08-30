@@ -342,14 +342,7 @@ function Sidebar({ isOpen, onClose }) {
                 </Link>
 
                 {/* Settings */}
-                <Link
-                  to="/settings"
-                  onClick={onClose}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
-                >
-                  <Settings size={20} />
-                  <span>Settings</span>
-                </Link>
+              
 
               </div>
             )}
