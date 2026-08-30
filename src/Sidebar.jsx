@@ -260,6 +260,15 @@ function Sidebar({ isOpen, onClose }) {
                   <Info size={20} />
                   <span>About StagePoa</span>
                 </a>
+                <a
+                  href="/contact"
+                  onClick={onClose}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg
+                  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                >
+                  <Info size={20} />
+                  <span>Contact StagePoa</span>
+                </a>
 
 
                 {/* Settings */}
