@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Footer from "./Footer";
 import Results from "./pages/Results";
+import Login from "./pages/Login";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -27,6 +28,7 @@ function App() {
         <Route path="/results" element={<Results/>}/>
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
       <Footer/>
     </>
