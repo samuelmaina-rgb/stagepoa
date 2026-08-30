@@ -9,12 +9,12 @@ export function FavoritesProvider({ children }) {
     return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
 
-  // Save favorites whenever they change
+ 
   useEffect(() => {
     localStorage.setItem("stagePoaFavorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  // Add a stage to favorites
+  
   const addFavorite = (stage) => {
     setFavorites((currentFavorites) => {
       const alreadySaved = currentFavorites.some(
@@ -29,19 +29,19 @@ export function FavoritesProvider({ children }) {
     });
   };
 
-  // Remove a stage from favorites
+  
   const removeFavorite = (stageId) => {
     setFavorites((currentFavorites) =>
       currentFavorites.filter((favorite) => favorite.id !== stageId)
     );
   };
 
-  // Check whether a stage is already saved
+  
   const isFavorite = (stageId) => {
     return favorites.some((favorite) => favorite.id === stageId);
   };
 
-  // Toggle favorite status
+
   const toggleFavorite = (stage) => {
     if (isFavorite(stage.id)) {
       removeFavorite(stage.id);

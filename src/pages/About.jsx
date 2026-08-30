@@ -5,7 +5,7 @@ function About() {
     <main className="min-h-screen bg-[#D9D9D9] px-4 md:px-6 py-10">
       <div className="max-w-6xl mx-auto">
 
-        {/* Hero */}
+        
         <section className="bg-[#D9D9D9] border-2 border-black border-r-4 border-b-4 rounded-2xl p-8 md:p-12">
           <p className="text-[#10B981] font-extrabold uppercase tracking-wide">
             About StagePoa
@@ -22,7 +22,7 @@ function About() {
           </p>
         </section>
 
-        {/* What is StagePoa */}
+        
         <section className="mt-10">
           <h2 className="text-3xl md:text-4xl font-extrabold text-black">
             What is StagePoa?
@@ -42,7 +42,7 @@ function About() {
           </p>
         </section>
 
-        {/* Features */}
+        
         <section className="mt-12">
           <h2 className="text-3xl md:text-4xl font-extrabold text-black">
             What you can do with StagePoa
@@ -50,7 +50,7 @@ function About() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-6">
 
-            {/* Find Stages */}
+            
             <div className="bg-[#D9D9D9] border-2 border-black border-r-4 border-b-4 rounded-2xl p-6">
               <div className="w-12 h-12 bg-#D9D9D9 text-[#10B981] rounded-xl flex items-center justify-center">
                 <Search size={24} />
@@ -65,7 +65,7 @@ function About() {
               </p>
             </div>
 
-            {/* Discover Routes */}
+            
             <div className="bg-[#D9D9D9] border-2 border-black border-r-4 border-b-4 rounded-2xl p-6">
               <div className="w-12 h-12 bg-#D9D9D9 text-[#10B981] rounded-xl flex items-center justify-center">
                 <MapPin size={24} />
@@ -80,7 +80,7 @@ function About() {
               </p>
             </div>
 
-            {/* Save Stages */}
+            
             <div className="bg-[#D9D9D9] border-2 border-black border-r-4 border-b-4 rounded-2xl p-6">
               <div className="w-12 h-12 bg-#D9D9D9 text-[#10B981] rounded-xl flex items-center justify-center">
                 <Heart size={24} />
@@ -95,7 +95,7 @@ function About() {
               </p>
             </div>
 
-            {/* Get Directions */}
+            
             <div className="bg-[#D9D9D9] border-2 border-black border-r-4 border-b-4 rounded-2xl p-6">
               <div className="w-12 h-12 bg-#D9D9D9 text-[#10B981] rounded-xl flex items-center justify-center">
                 <Navigation size={24} />
@@ -113,7 +113,7 @@ function About() {
           </div>
         </section>
 
-        {/* Our Mission */}
+       
         <section className="mt-12 mb-10 bg-[#D9D9D9] rounded-2xl p-8 md:p-10 border-2 border-black border-r-4 border-b-4">
           <h2 className="text-3xl font-extrabold text-[#10B981]">
             Our Mission

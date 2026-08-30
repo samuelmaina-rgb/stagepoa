@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  MapPin,
-  Map,
-  Heart,
-  Clock,
-  Info,
-  Settings,
-  X,
-  ChevronDown,
-} from "lucide-react";
+import {MapPin,Map,Heart,Clock,Info,Settings,X,ChevronDown,} from "lucide-react";
 import { Link } from "react-router-dom";
 
 import {
@@ -26,11 +17,11 @@ import { auth, db } from "./firebase/firebase";
 import { useFavorites } from "./context/FavoritesContext";
 
 function Sidebar({ isOpen, onClose }) {
-  // Top-level accordion
+  
   const [openMainSection, setOpenMainSection] =
     useState("navigation");
 
-  // Navigation accordion
+ 
   const [openNavigationSection, setOpenNavigationSection] =
     useState(null);
 
@@ -51,7 +42,7 @@ function Sidebar({ isOpen, onClose }) {
     );
   };
 
-  // Authentication
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -60,7 +51,7 @@ function Sidebar({ isOpen, onClose }) {
     return () => unsubscribe();
   }, []);
 
-  // Recent searches
+  
   useEffect(() => {
     if (!user) {
       setRecentSearches([]);
@@ -97,7 +88,7 @@ function Sidebar({ isOpen, onClose }) {
 
   return (
     <>
-      {/* Overlay */}
+      
       {isOpen && (
         <div
           onClick={onClose}
@@ -105,7 +96,7 @@ function Sidebar({ isOpen, onClose }) {
         />
       )}
 
-      {/* Sidebar */}
+      
       <aside
         className={`
           fixed top-0 right-0 h-screen w-72 z-50
@@ -121,7 +112,7 @@ function Sidebar({ isOpen, onClose }) {
           }
         `}
       >
-        {/* Header */}
+        
         <div className="flex items-center justify-between p-6 border-b border-gray-200/70">
           <div>
             <h2 className="text-xl font-extrabold text-[#10B981]">
@@ -144,9 +135,7 @@ function Sidebar({ isOpen, onClose }) {
 
         <nav className="p-4">
 
-          {/* =========================
-              NAVIGATION
-          ========================== */}
+          
           <div className="border-b border-gray-200/70">
             <button
               onClick={() =>
@@ -169,7 +158,7 @@ function Sidebar({ isOpen, onClose }) {
             {openMainSection === "navigation" && (
               <div className="pb-3">
 
-                {/* Nearby Stages */}
+                
                 <Link
                   to="/nearby"
                   onClick={onClose}
@@ -179,7 +168,7 @@ function Sidebar({ isOpen, onClose }) {
                   <span>Nearby Stages</span>
                 </Link>
 
-                {/* Stage Map */}
+                
                 <a
                   href="https://www.google.com/maps"
                   target="_blank"
@@ -191,7 +180,7 @@ function Sidebar({ isOpen, onClose }) {
                   <span>Stage Map</span>
                 </a>
 
-                {/* Saved Stages */}
+                
                 <button
                   onClick={() =>
                     toggleNavigationSection("saved")
@@ -213,7 +202,7 @@ function Sidebar({ isOpen, onClose }) {
                   />
                 </button>
 
-                {/* Saved Stages Content */}
+                
                 {openNavigationSection === "saved" && (
                   <div className="ml-7 mr-2 pb-2">
                     {favorites.length === 0 ? (
@@ -255,7 +244,7 @@ function Sidebar({ isOpen, onClose }) {
                   </div>
                 )}
 
-                {/* Recent Searches */}
+                
                 <button
                   onClick={() =>
                     toggleNavigationSection("recent")
@@ -277,7 +266,7 @@ function Sidebar({ isOpen, onClose }) {
                   />
                 </button>
 
-                {/* Recent Searches Content */}
+                
                 {openNavigationSection === "recent" && (
                   <div className="ml-7 mr-2 pb-2">
                     {!user ? (
@@ -308,9 +297,7 @@ function Sidebar({ isOpen, onClose }) {
             )}
           </div>
 
-          {/* =========================
-              MORE
-          ========================== */}
+          
           <div className="border-b border-gray-200/70">
             <button
               onClick={() => toggleMainSection("more")}
@@ -331,7 +318,7 @@ function Sidebar({ isOpen, onClose }) {
             {openMainSection === "more" && (
               <div className="pb-3">
 
-                {/* About */}
+                
                 <Link
                   to="/about"
                   onClick={onClose}
@@ -349,7 +336,7 @@ function Sidebar({ isOpen, onClose }) {
                   <span>Contact StagePoa</span>
                 </Link>
 
-                {/* Settings */}
+               
               
 
               </div>

@@ -32,9 +32,6 @@ function GoogleMap({
           mapId: "DEMO_MAP_ID",
         });
 
-        // ---------------------------------------------
-        // USER LOCATION
-        // ---------------------------------------------
 
         new AdvancedMarkerElement({
           map,
@@ -45,15 +42,10 @@ function GoogleMap({
           title: "Your Location",
         });
 
-        // ---------------------------------------------
-        // INFO WINDOW
-        // ---------------------------------------------
 
         const infoWindow = new InfoWindow();
 
-        // ---------------------------------------------
-        // STAGE MARKERS
-        // ---------------------------------------------
+       
 
         stages.forEach((stage) => {
           const marker = new AdvancedMarkerElement({
@@ -67,7 +59,7 @@ function GoogleMap({
             title: stage.stageName,
           });
 
-          // Click marker
+          
           marker.addListener("click", () => {
             infoWindow.setContent(`
               <div style="padding: 5px;">

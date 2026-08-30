@@ -10,15 +10,10 @@ function Home() {
   const [destination, setDestination] = useState("");
   const navigate = useNavigate();
 
-  // --------------------------------------------------
-  // SAVE SEARCH TO FIRESTORE
-  // --------------------------------------------------
 
   const saveSearch = async (place) => {
     const currentUser = auth.currentUser;
 
-    // User is not logged in
-    // Search will still work normally
     if (!currentUser) {
       return;
     }
@@ -36,9 +31,6 @@ function Home() {
     }
   };
 
-  // --------------------------------------------------
-  // NORMAL SEARCH
-  // --------------------------------------------------
 
   const handleSearch = async () => {
     const trimmedDestination = destination.trim();
@@ -54,9 +46,6 @@ function Home() {
     );
   };
 
-  // --------------------------------------------------
-  // POPULAR DESTINATION
-  // --------------------------------------------------
 
   const handlePopularDestination = async (place) => {
     setDestination(place);
@@ -71,7 +60,7 @@ function Home() {
   return (
     <main className="min-h-screen bg-[#D9D9D9]">
 
-      {/* HERO */}
+      
       <section className="max-w-7xl mx-auto px-6 py-20">
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -104,7 +93,7 @@ function Home() {
       </section>
 
 
-      {/* HOW STAGEPOA WORKS */}
+      
       <section
         id="how-it-works"
         className="max-w-7xl mx-auto px-6 pb-16"
@@ -178,7 +167,6 @@ function Home() {
       </section>
 
 
-      {/* FIND A STAGE */}
       <section
         id="find-a-stage"
         className="max-w-7xl mx-auto px-6 pb-16"
@@ -229,7 +217,7 @@ function Home() {
           </div>
 
 
-          {/* POPULAR DESTINATIONS */}
+          
           <div className="mt-6">
 
             <p className="text-sm font-bold mb-3">

@@ -6,7 +6,7 @@ function Contact() {
 
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
+        
         <section className="mb-10">
 
           <p className="text-[#10B981] font-extrabold uppercase tracking-wide">
@@ -28,7 +28,7 @@ function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
 
-          {/* Contact Information */}
+         
           <section className="bg-[#676E7E]/35 border-2 border-black border-r-4 border-b-4 rounded-2xl p-8">
 
             <h2 className="text-3xl font-extrabold text-black">
@@ -41,7 +41,7 @@ function Contact() {
             </p>
 
 
-            {/* Email */}
+            
             <div className="flex items-start gap-4 mt-8">
 
               <div className="w-12 h-12 shrink-0 bg-black text-[#10B981] rounded-xl flex items-center justify-center">
@@ -61,7 +61,6 @@ function Contact() {
             </div>
 
 
-            {/* Location */}
             <div className="flex items-start gap-4 mt-6">
 
               <div className="w-12 h-12 shrink-0 bg-black text-[#10B981] rounded-xl flex items-center justify-center">
@@ -81,7 +80,6 @@ function Contact() {
             </div>
 
 
-            {/* Feedback */}
             <div className="flex items-start gap-4 mt-6">
 
               <div className="w-12 h-12 shrink-0 bg-black text-[#10B981] rounded-xl flex items-center justify-center">
@@ -103,7 +101,6 @@ function Contact() {
           </section>
 
 
-          {/* Contact Form */}
           <section className="bg-white border-2 border-black border-r-4 border-b-4 rounded-2xl p-8">
 
             <h2 className="text-3xl font-extrabold text-black">
@@ -112,7 +109,7 @@ function Contact() {
 
             <form className="mt-6 space-y-5">
 
-              {/* Name */}
+              
               <div>
 
                 <label className="block text-sm font-extrabold mb-2">
@@ -128,7 +125,7 @@ function Contact() {
               </div>
 
 
-              {/* Email */}
+              
               <div>
 
                 <label className="block text-sm font-extrabold mb-2">
@@ -144,7 +141,7 @@ function Contact() {
               </div>
 
 
-              {/* Message */}
+             
               <div>
 
                 <label className="block text-sm font-extrabold mb-2">
@@ -160,7 +157,7 @@ function Contact() {
               </div>
 
 
-              {/* Submit */}
+              
               <button
                 type="submit"
                 className="w-full bg-[#10B981] text-white px-5 py-3 rounded-xl font-extrabold border-2 border-black border-r-4 border-b-4 hover:translate-y-[1px] transition"

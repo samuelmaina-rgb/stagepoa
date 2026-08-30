@@ -10,7 +10,7 @@ function Navbar({ onMenuClick }) {
   const [user, setUser] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  // Listen for Firebase authentication changes
+ 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -19,7 +19,6 @@ function Navbar({ onMenuClick }) {
     return () => unsubscribe();
   }, []);
 
-  // Sign out
   async function handleSignOut() {
     try {
       await signOut(auth);
@@ -34,7 +33,7 @@ function Navbar({ onMenuClick }) {
     <nav className="bg-[#D9D9D9] border-b border-black">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* Logo */}
+        
         <Link to="/" className="flex items-center gap-2">
 
           <div className="bg-[#10B981] text-white p-2 rounded-lg">
@@ -47,7 +46,7 @@ function Navbar({ onMenuClick }) {
 
         </Link>
 
-        {/* Desktop Navigation */}
+        
         <div className="hidden md:flex items-center gap-8">
 
           <a
@@ -66,10 +65,10 @@ function Navbar({ onMenuClick }) {
 
         </div>
 
-        {/* Right Side */}
+      
         <div className="flex items-center gap-4">
 
-          {/* LOGIN / PROFILE */}
+          
 
           {!user ? (
 
@@ -93,7 +92,7 @@ function Navbar({ onMenuClick }) {
 
             <div className="relative hidden sm:block">
 
-              {/* Profile Button */}
+              
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-2
@@ -121,7 +120,7 @@ function Navbar({ onMenuClick }) {
 
               </button>
 
-              {/* Profile Dropdown */}
+              
               {profileOpen && (
                 <div
                   className="absolute right-0 mt-3 w-64
@@ -168,7 +167,7 @@ function Navbar({ onMenuClick }) {
 
           )}
 
-          {/* Sidebar Menu */}
+          
           <button
             onClick={onMenuClick}
             className="text-gray-600 hover:text-green-600 transition"

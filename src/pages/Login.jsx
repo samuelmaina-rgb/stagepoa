@@ -23,9 +23,7 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ---------------------------------------------
-  // EMAIL AUTHENTICATION
-  // ---------------------------------------------
+
 
   async function handleEmailAuth(e) {
     e.preventDefault();
@@ -88,9 +86,6 @@ function Login() {
     }
   }
 
-  // ---------------------------------------------
-  // GOOGLE AUTHENTICATION
-  // ---------------------------------------------
 
   async function handleGoogleLogin() {
     setError("");
@@ -116,16 +111,14 @@ function Login() {
     }
   }
 
-  // ---------------------------------------------
-  // RENDER
-  // ---------------------------------------------
+
 
   return (
     <main className="min-h-screen bg-[#D9D9D9] px-4 py-10 flex items-center justify-center">
 
       <div className="w-full max-w-md">
 
-        {/* Back */}
+        
         <button
           onClick={() => navigate("/")}
           className="flex items-center gap-2 text-gray-600 hover:text-[#10B981] font-bold mb-6 transition"
@@ -134,10 +127,10 @@ function Login() {
           Back to StagePoa
         </button>
 
-        {/* Card */}
+        
         <div className="bg-[#D9D9D9] border-2 border-black border-r-4 border-b-4 rounded-2xl p-7">
 
-          {/* Logo */}
+          
           <div className="flex items-center gap-2 mb-6">
 
             <div className="bg-[#10B981] text-white p-2 rounded-lg">
@@ -150,7 +143,6 @@ function Login() {
 
           </div>
 
-          {/* Heading */}
           <h1 className="text-3xl font-extrabold text-black">
             {isRegistering
               ? "Create your account"
@@ -163,20 +155,20 @@ function Login() {
               : "Sign in to continue using StagePoa."}
           </p>
 
-          {/* Error */}
+          
           {error && (
             <div className="mt-5 bg-red-100 border-2 border-red-400 text-red-700 rounded-xl px-4 py-3 text-sm font-bold">
               {error}
             </div>
           )}
 
-          {/* Form */}
+          
           <form
             onSubmit={handleEmailAuth}
             className="mt-6 space-y-4"
           >
 
-            {/* Name */}
+            
             {isRegistering && (
               <div>
                 <label className="block text-sm font-extrabold mb-2">
@@ -194,7 +186,7 @@ function Login() {
               </div>
             )}
 
-            {/* Email */}
+         
             <div>
               <label className="block text-sm font-extrabold mb-2">
                 Email
@@ -210,7 +202,7 @@ function Login() {
               />
             </div>
 
-            {/* Password */}
+         
             <div>
               <label className="block text-sm font-extrabold mb-2">
                 Password
@@ -226,7 +218,7 @@ function Login() {
               />
             </div>
 
-            {/* Confirm Password */}
+         
             {isRegistering && (
               <div>
                 <label className="block text-sm font-extrabold mb-2">
@@ -246,7 +238,7 @@ function Login() {
               </div>
             )}
 
-            {/* Submit */}
+           
             <button
               type="submit"
               disabled={loading}
@@ -261,7 +253,7 @@ function Login() {
 
           </form>
 
-          {/* Divider */}
+          
           <div className="flex items-center gap-3 my-6">
             <div className="flex-1 h-px bg-gray-400" />
             <span className="text-sm font-bold text-gray-500">
@@ -270,7 +262,6 @@ function Login() {
             <div className="flex-1 h-px bg-gray-400" />
           </div>
 
-          {/* Google */}
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
@@ -279,7 +270,6 @@ function Login() {
             Continue with Google
           </button>
 
-          {/* Switch */}
           <p className="text-center mt-6 text-gray-600 font-medium">
 
             {isRegistering
