@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   MapPin,
   Map,
@@ -10,32 +9,95 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
+  onSnapshot,
+} from "firebase/firestore";
+
+import { onAuthStateChanged } from "firebase/auth";
+
+import { auth, db } from "./firebase/firebase";
 import { useFavorites } from "./context/FavoritesContext";
 
 function Sidebar({ isOpen, onClose }) {
-  const [openSection, setOpenSection] = useState("navigation");
+  // Top-level accordion
+  const [openMainSection, setOpenMainSection] =
+    useState("navigation");
 
-  const { favorites } = useFavorites();
+  // Navigation accordion
+  const [openNavigationSection, setOpenNavigationSection] =
+    useState(null);
 
-  const navigate = useNavigate();
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [user, setUser] = useState(null);
 
-  const toggleSection = (section) => {
-    setOpenSection(openSection === section ? null : section);
+  const { favorites, removeFavorite } = useFavorites();
+
+  const toggleMainSection = (section) => {
+    setOpenMainSection((current) =>
+      current === section ? null : section
+    );
   };
 
-  // Navigate to a saved stage
-  const handleFavoriteClick = (stage) => {
-    navigate(
-      `/results?destination=${encodeURIComponent(stage.stageName)}`
+  const toggleNavigationSection = (section) => {
+    setOpenNavigationSection((current) =>
+      current === section ? null : section
+    );
+  };
+
+  // Authentication
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Recent searches
+  useEffect(() => {
+    if (!user) {
+      setRecentSearches([]);
+      return;
+    }
+
+    const searchesQuery = query(
+      collection(db, "search_logs"),
+      where("uid", "==", user.uid),
+      orderBy("createdAt", "desc"),
+      limit(5)
     );
 
-    onClose();
-  };
+    const unsubscribe = onSnapshot(
+      searchesQuery,
+      (snapshot) => {
+        const searches = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setRecentSearches(searches);
+      },
+      (error) => {
+        console.error(
+          "Error getting recent searches:",
+          error
+        );
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user]);
 
   return (
     <>
-      {/* Dark overlay */}
+      {/* Overlay */}
       {isOpen && (
         <div
           onClick={onClose}
@@ -52,13 +114,15 @@ function Sidebar({ isOpen, onClose }) {
           border-l border-black/10
           shadow-xl
           transform transition-transform duration-300
-          ${isOpen ? "translate-x-0" : "translate-x-full"}
+          ${
+            isOpen
+              ? "translate-x-0"
+              : "translate-x-full"
+          }
         `}
       >
-
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200/70">
-
           <div>
             <h2 className="text-xl font-extrabold text-[#10B981]">
               Explore
@@ -72,23 +136,22 @@ function Sidebar({ isOpen, onClose }) {
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-[#10B981] transition"
+            aria-label="Close sidebar"
           >
             <X size={24} />
           </button>
-
         </div>
 
-        {/* Accordion Navigation */}
         <nav className="p-4">
 
-          {/* --------------------------------------------- */}
-          {/* NAVIGATION ACCORDION */}
-          {/* --------------------------------------------- */}
-
+          {/* =========================
+              NAVIGATION
+          ========================== */}
           <div className="border-b border-gray-200/70">
-
             <button
-              onClick={() => toggleSection("navigation")}
+              onClick={() =>
+                toggleMainSection("navigation")
+              }
               className="w-full flex items-center justify-between px-4 py-3 font-extrabold text-gray-800"
             >
               Navigation
@@ -96,134 +159,161 @@ function Sidebar({ isOpen, onClose }) {
               <ChevronDown
                 size={19}
                 className={`transition-transform duration-300 ${
-                  openSection === "navigation"
+                  openMainSection === "navigation"
                     ? "rotate-180"
                     : ""
                 }`}
               />
             </button>
 
-            <div
-              className={`overflow-hidden transition-all duration-300 ${
-                openSection === "navigation"
-                  ? "max-h-96 opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
-            >
+            {openMainSection === "navigation" && (
               <div className="pb-3">
 
-                
+                {/* Nearby Stages */}
+                <Link
+                  to="/nearby"
+                  onClick={onClose}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                >
+                  <MapPin size={20} />
+                  <span>Nearby Stages</span>
+                </Link>
 
                 {/* Stage Map */}
-               <a
-  href="https://www.google.com/maps"
-  target="_blank"
-  rel="noopener noreferrer"
-  onClick={onClose}
-  className="flex items-center gap-3 px-4 py-3 rounded-lg
-  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
->
-  <Map size={20} />
-  <span>Map</span>
-</a>
+                <a
+                  href="https://www.google.com/maps"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onClose}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                >
+                  <Map size={20} />
+                  <span>Stage Map</span>
+                </a>
 
-               
+                {/* Saved Stages */}
+                <button
+                  onClick={() =>
+                    toggleNavigationSection("saved")
+                  }
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <Heart size={20} />
+                    <span>Saved Stages</span>
+                  </div>
 
-              </div>
-            </div>
+                  <ChevronDown
+                    size={17}
+                    className={`transition-transform duration-300 ${
+                      openNavigationSection === "saved"
+                        ? "rotate-180"
+                        : ""
+                    }`}
+                  />
+                </button>
 
-          </div>
+                {/* Saved Stages Content */}
+                {openNavigationSection === "saved" && (
+                  <div className="ml-7 mr-2 pb-2">
+                    {favorites.length === 0 ? (
+                      <p className="px-3 py-2 text-sm text-gray-500">
+                        No saved stages yet.
+                      </p>
+                    ) : (
+                      favorites.map((stage) => (
+                        <div
+                          key={stage.id}
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#10B981]/10 transition"
+                        >
+                          <Link
+                            to={`/results?destination=${encodeURIComponent(
+                              stage.stageName
+                            )}`}
+                            onClick={onClose}
+                            className="flex-1 text-sm font-medium text-gray-600 hover:text-[#10B981] truncate"
+                          >
+                            {stage.stageName}
+                          </Link>
 
-
-          {/* --------------------------------------------- */}
-          {/* SAVED STAGES ACCORDION */}
-          {/* --------------------------------------------- */}
-
-          <div className="border-b border-gray-200/70">
-
-            <button
-              onClick={() => toggleSection("saved")}
-              className="w-full flex items-center justify-between px-4 py-3 font-extrabold text-gray-800"
-            >
-
-              <div className="flex items-center gap-3">
-                <Heart size={20} />
-                <span>Saved Stages</span>
-              </div>
-
-              <ChevronDown
-                size={19}
-                className={`transition-transform duration-300 ${
-                  openSection === "saved"
-                    ? "rotate-180"
-                    : ""
-                }`}
-              />
-
-            </button>
-
-
-            {/* Saved Stages List */}
-            <div
-              className={`overflow-hidden transition-all duration-300 ${
-                openSection === "saved"
-                  ? "max-h-96 opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
-            >
-
-              <div className="pb-3">
-
-                {favorites.length === 0 ? (
-
-                  <p className="px-4 py-3 text-sm text-gray-500">
-                    No saved stages yet.
-                  </p>
-
-                ) : (
-
-                  favorites.map((stage) => (
-
-                    <button
-                      key={stage.id}
-                      onClick={() =>
-                        handleFavoriteClick(stage)
-                      }
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg
-                      text-gray-700 hover:bg-[#10B981]/10
-                      hover:text-[#10B981] transition text-left"
-                    >
-
-                      <Heart
-                        size={18}
-                        className="shrink-0 fill-[#10B981] text-[#10B981]"
-                      />
-
-                      <span className="font-medium truncate">
-                        {stage.stageName}
-                      </span>
-
-                    </button>
-
-                  ))
-
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeFavorite(stage.id);
+                            }}
+                            className="text-[#10B981] hover:text-red-500 transition"
+                            aria-label={`Remove ${stage.stageName} from saved stages`}
+                          >
+                            <Heart
+                              size={17}
+                              fill="currentColor"
+                            />
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 )}
 
+                {/* Recent Searches */}
+                <button
+                  onClick={() =>
+                    toggleNavigationSection("recent")
+                  }
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <Clock size={20} />
+                    <span>Recent Searches</span>
+                  </div>
+
+                  <ChevronDown
+                    size={17}
+                    className={`transition-transform duration-300 ${
+                      openNavigationSection === "recent"
+                        ? "rotate-180"
+                        : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Recent Searches Content */}
+                {openNavigationSection === "recent" && (
+                  <div className="ml-7 mr-2 pb-2">
+                    {!user ? (
+                      <p className="px-3 py-2 text-sm text-gray-500">
+                        Sign in to see recent searches.
+                      </p>
+                    ) : recentSearches.length === 0 ? (
+                      <p className="px-3 py-2 text-sm text-gray-500">
+                        No recent searches yet.
+                      </p>
+                    ) : (
+                      recentSearches.map((search) => (
+                        <Link
+                          key={search.id}
+                          to={`/results?destination=${encodeURIComponent(
+                            search.destination
+                          )}`}
+                          onClick={onClose}
+                          className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-[#10B981]/10 hover:text-[#10B981] transition truncate"
+                        >
+                          {search.destination}
+                        </Link>
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
-
-            </div>
-
+            )}
           </div>
 
-
-          {/* --------------------------------------------- */}
-          {/* MORE ACCORDION */}
-          {/* --------------------------------------------- */}
-
+          {/* =========================
+              MORE
+          ========================== */}
           <div className="border-b border-gray-200/70">
-
             <button
-              onClick={() => toggleSection("more")}
+              onClick={() => toggleMainSection("more")}
               className="w-full flex items-center justify-between px-4 py-3 font-extrabold text-gray-800"
             >
               More
@@ -231,65 +321,41 @@ function Sidebar({ isOpen, onClose }) {
               <ChevronDown
                 size={19}
                 className={`transition-transform duration-300 ${
-                  openSection === "more"
+                  openMainSection === "more"
                     ? "rotate-180"
                     : ""
                 }`}
               />
-
             </button>
 
-
-            <div
-              className={`overflow-hidden transition-all duration-300 ${
-                openSection === "more"
-                  ? "max-h-40 opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
-            >
-
+            {openMainSection === "more" && (
               <div className="pb-3">
 
                 {/* About */}
-                <a
-                  href="/about"
+                <Link
+                  to="/about"
                   onClick={onClose}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg
-                  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
                 >
                   <Info size={20} />
                   <span>About StagePoa</span>
-                </a>
-                <a
-                  href="/contact"
-                  onClick={onClose}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg
-                  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
-                >
-                  <Info size={20} />
-                  <span>Contact StagePoa</span>
-                </a>
-
+                </Link>
 
                 {/* Settings */}
-                <a
-                  href="/settings"
+                <Link
+                  to="/settings"
                   onClick={onClose}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg
-                  text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-[#10B981]/10 hover:text-[#10B981] transition"
                 >
                   <Settings size={20} />
                   <span>Settings</span>
-                </a>
+                </Link>
 
               </div>
-
-            </div>
-
+            )}
           </div>
 
         </nav>
-
       </aside>
     </>
   );

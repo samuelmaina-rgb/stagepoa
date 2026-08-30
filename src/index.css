@@ -1,7 +1,5 @@
-@import "tailwindcss";
-
 @import url("https://cdn.jsdelivr.net/fontsource/fonts/iosevka-charon-mono@5.3.0/latin-400-normal.css");
-
+@import "tailwindcss";
 body {
     background-color: #D9D9D9;
   font-family: "Iosevka Charon Mono", monospace;
