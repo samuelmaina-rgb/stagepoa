@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Heart } from "lucide-react";
 
 import stages from "../data/stages";
@@ -8,8 +8,11 @@ import { findStageLocation } from "../utilities/findStageLocation";
 import GoogleMap from "../components/GoogleMap";
 import { useFavorites } from "../context/FavoritesContext";
 
+import { auth } from "../firebase/firebase";
+
 function Results() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const { isFavorite, toggleFavorite } = useFavorites();
 
@@ -136,18 +139,15 @@ function Results() {
 
   const filteredResults = useMemo(() => {
     return destinationResults.filter((stage) => {
-      // SACCO filter
       const matchesSacco =
         selectedSacco === "All" ||
         (stage.saccos || []).includes(selectedSacco);
 
-      // Status filter
       const matchesStatus =
         selectedStatus === "All" ||
         stage.status?.toLowerCase() ===
           selectedStatus.toLowerCase();
 
-      // Find cheapest route fare for the stage
       const stageMinFare =
         stage.routes?.length > 0
           ? Math.min(
@@ -205,6 +205,35 @@ function Results() {
   }
 
   // --------------------------------------------------
+  // GET DIRECTIONS
+  // --------------------------------------------------
+
+  function handleGetDirections(googleLocation) {
+    // Check if the user is logged in
+    if (!auth.currentUser) {
+      navigate("/login");
+      return;
+    }
+
+    // Make sure we have both locations
+    if (!googleLocation || !userLocation) {
+      return;
+    }
+
+    const directionsUrl =
+      `https://www.google.com/maps/dir/?api=1` +
+      `&origin=${userLocation.latitude},${userLocation.longitude}` +
+      `&destination=${googleLocation.latitude},${googleLocation.longitude}`;
+
+    // Open Google Maps in a new tab
+    window.open(
+      directionsUrl,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
+  // --------------------------------------------------
   // RENDER
   // --------------------------------------------------
 
@@ -213,9 +242,7 @@ function Results() {
 
       <div className="max-w-7xl mx-auto">
 
-        {/* --------------------------------------------- */}
         {/* HEADER */}
-        {/* --------------------------------------------- */}
 
         <div className="mb-6">
 
@@ -230,9 +257,7 @@ function Results() {
         </div>
 
 
-        {/* --------------------------------------------- */}
         {/* FILTER SECTION */}
-        {/* --------------------------------------------- */}
 
         <div className="bg-[#676E7E]/35 border-2 border-black rounded-2xl p-4 mb-8">
 
@@ -354,9 +379,7 @@ function Results() {
         </div>
 
 
-        {/* --------------------------------------------- */}
         {/* RESULTS COUNT */}
-        {/* --------------------------------------------- */}
 
         <div className="mb-4">
 
@@ -371,9 +394,7 @@ function Results() {
         </div>
 
 
-        {/* --------------------------------------------- */}
         {/* NO RESULTS */}
-        {/* --------------------------------------------- */}
 
         {destinationResults.length === 0 ? (
 
@@ -412,9 +433,7 @@ function Results() {
 
         ) : (
 
-          /* --------------------------------------------- */
           /* RESULT CARDS */
-          /* --------------------------------------------- */
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
@@ -577,23 +596,23 @@ function Results() {
                   </div>
 
 
-                  {/* ----------------------------------- */}
                   {/* GET DIRECTIONS */}
-                  {/* ----------------------------------- */}
 
                   <div className="mt-auto pt-5">
 
                     {googleLocation &&
                     userLocation ? (
 
-                      <a
-                        href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation.latitude},${userLocation.longitude}&destination=${googleLocation.latitude},${googleLocation.longitude}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        onClick={() =>
+                          handleGetDirections(
+                            googleLocation
+                          )
+                        }
                         className="w-full inline-flex items-center justify-center bg-[#10B981] text-white px-4 py-3 rounded-xl font-extrabold border-2 border-black border-r-4 border-b-4 hover:translate-y-[1px] transition"
                       >
                         Get Directions
-                      </a>
+                      </button>
 
                     ) : (
 
@@ -619,9 +638,7 @@ function Results() {
         )}
 
 
-        {/* --------------------------------------------- */}
         {/* GOOGLE MAP */}
-        {/* --------------------------------------------- */}
 
         <section className="mt-12">
 
