@@ -18,33 +18,21 @@ function Results() {
 
   const destination = searchParams.get("destination") || "";
 
-  // --------------------------------------------------
-  // FILTER STATES
-  // --------------------------------------------------
 
   const [selectedSacco, setSelectedSacco] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [maxFare, setMaxFare] = useState("All");
 
-  // --------------------------------------------------
-  // GOOGLE MAP / LOCATION STATES
-  // --------------------------------------------------
 
   const [userLocation, setUserLocation] = useState(null);
   const [stageLocations, setStageLocations] = useState({});
   const [locationLoading, setLocationLoading] = useState(true);
 
-  // --------------------------------------------------
-  // FIND STAGES MATCHING DESTINATION
-  // --------------------------------------------------
 
   const destinationResults = useMemo(() => {
     return searchStages(stages, destination);
   }, [destination]);
 
-  // --------------------------------------------------
-  // GET USER'S CURRENT LOCATION
-  // --------------------------------------------------
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -72,9 +60,6 @@ function Results() {
     );
   }, []);
 
-  // --------------------------------------------------
-  // FIND GOOGLE MAP LOCATIONS FOR MATCHING STAGES
-  // --------------------------------------------------
 
   useEffect(() => {
     let cancelled = false;
@@ -114,9 +99,6 @@ function Results() {
     };
   }, [destinationResults]);
 
-  // --------------------------------------------------
-  // FILTER OPTIONS
-  // --------------------------------------------------
 
   const saccoOptions = useMemo(() => {
     const allSaccos = destinationResults.flatMap(
@@ -132,10 +114,6 @@ function Results() {
     "crowded",
     "peak hour",
   ];
-
-  // --------------------------------------------------
-  // APPLY FILTERS
-  // --------------------------------------------------
 
   const filteredResults = useMemo(() => {
     return destinationResults.filter((stage) => {
@@ -172,9 +150,7 @@ function Results() {
     maxFare,
   ]);
 
-  // --------------------------------------------------
-  // STATUS BADGE
-  // --------------------------------------------------
+
 
   function getStatusClasses(status) {
     const normalizedStatus = status?.toLowerCase();
@@ -194,9 +170,6 @@ function Results() {
     return "bg-gray-300 text-black";
   }
 
-  // --------------------------------------------------
-  // RESET FILTERS
-  // --------------------------------------------------
 
   function resetFilters() {
     setSelectedSacco("All");
@@ -204,18 +177,16 @@ function Results() {
     setMaxFare("All");
   }
 
-  // --------------------------------------------------
-  // GET DIRECTIONS
-  // --------------------------------------------------
+
 
   function handleGetDirections(googleLocation) {
-    // Check if the user is logged in
+   
     if (!auth.currentUser) {
       navigate("/login");
       return;
     }
 
-    // Make sure we have both locations
+   
     if (!googleLocation || !userLocation) {
       return;
     }
@@ -225,7 +196,6 @@ function Results() {
       `&origin=${userLocation.latitude},${userLocation.longitude}` +
       `&destination=${googleLocation.latitude},${googleLocation.longitude}`;
 
-    // Open Google Maps in a new tab
     window.open(
       directionsUrl,
       "_blank",
@@ -233,16 +203,14 @@ function Results() {
     );
   }
 
-  // --------------------------------------------------
-  // RENDER
-  // --------------------------------------------------
+
 
   return (
     <main className="min-h-screen bg-[#D9D9D9] px-4 md:px-6 py-10">
 
       <div className="max-w-7xl mx-auto">
 
-        {/* HEADER */}
+       
 
         <div className="mb-6">
 
@@ -257,13 +225,13 @@ function Results() {
         </div>
 
 
-        {/* FILTER SECTION */}
+       
 
         <div className="bg-[#676E7E]/35 border-2 border-black rounded-2xl p-4 mb-8">
 
           <div className="flex flex-col md:flex-row md:items-end gap-4">
 
-            {/* SACCO */}
+           
 
             <div className="flex-1">
 
@@ -290,7 +258,7 @@ function Results() {
             </div>
 
 
-            {/* STATUS */}
+            
 
             <div className="flex-1">
 
@@ -320,7 +288,7 @@ function Results() {
             </div>
 
 
-            {/* FARE */}
+           
 
             <div className="flex-1">
 
@@ -365,7 +333,7 @@ function Results() {
             </div>
 
 
-            {/* RESET */}
+           
 
             <button
               onClick={resetFilters}
@@ -379,7 +347,7 @@ function Results() {
         </div>
 
 
-        {/* RESULTS COUNT */}
+        
 
         <div className="mb-4">
 
@@ -394,7 +362,7 @@ function Results() {
         </div>
 
 
-        {/* NO RESULTS */}
+        
 
         {destinationResults.length === 0 ? (
 
@@ -433,7 +401,7 @@ function Results() {
 
         ) : (
 
-          /* RESULT CARDS */
+          
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
@@ -449,7 +417,7 @@ function Results() {
                   className="bg-[#676E7E]/35 rounded-2xl p-5 border-2 border-black border-r-4 border-b-4 flex flex-col"
                 >
 
-                  {/* STAGE HEADER */}
+                 
 
                   <div className="flex items-start justify-between gap-3">
 
@@ -459,7 +427,7 @@ function Results() {
                         {stage.stageName}
                       </h2>
 
-                      {/* FAVORITE BUTTON */}
+                      
 
                       <button
                         onClick={() => toggleFavorite(stage)}
@@ -495,14 +463,14 @@ function Results() {
                   </div>
 
 
-                  {/* DESCRIPTION */}
+                  
 
                   <p className="mt-3 text-black/80 text-sm leading-relaxed">
                     {stage.description}
                   </p>
 
 
-                  {/* SACCO */}
+                  
 
                   <div className="mt-4">
 
@@ -538,7 +506,7 @@ function Results() {
                   </div>
 
 
-                  {/* ROUTES */}
+                 
 
                   <div className="mt-5">
 
@@ -596,7 +564,7 @@ function Results() {
                   </div>
 
 
-                  {/* GET DIRECTIONS */}
+                  
 
                   <div className="mt-auto pt-5">
 
@@ -638,7 +606,7 @@ function Results() {
         )}
 
 
-        {/* GOOGLE MAP */}
+        
 
         <section className="mt-12">
 
